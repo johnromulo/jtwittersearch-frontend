@@ -87,7 +87,7 @@ const Show: React.FC = () => {
   return (
     <Container>
       {loading && <TweetLoading />}
-      {tweets ? (
+      {loading && tweets.length > 0 ? (
         <TweetListContainer>
           <TweetList
             ref={tweetsListRef}
