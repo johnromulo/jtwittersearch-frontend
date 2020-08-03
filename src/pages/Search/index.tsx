@@ -48,10 +48,8 @@ const Search: React.FC = () => {
     if (hashtag) {
       getTweets();
 
-      socket.on('connect', () => {
-        socket.emit('search', {
-          hashtag,
-        });
+      socket.emit('search', {
+        hashtag,
       });
 
       connetionTweetRealTime = socket.on(
@@ -64,7 +62,7 @@ const Search: React.FC = () => {
 
     return () => {
       if (connetionTweetRealTime) {
-        connetionTweetRealTime.off();
+        connetionTweetRealTime.removeAllListeners();
       }
     };
   }, [hashtag, timeSearch]);
