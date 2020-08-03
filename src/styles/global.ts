@@ -24,7 +24,7 @@ export default createGlobalStyle`
 
   html, body, #root {
     height: 100%;
-    background : ${props => props.theme.colors.backgroudPrimay};
+    background : #EEEEEE;
   }
 
   body {
