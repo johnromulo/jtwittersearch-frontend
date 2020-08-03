@@ -94,7 +94,9 @@ const Search: React.FC = () => {
         </ButtonContainer>
       </Header>
       {loading && [1, 2, 3].map(item => <TweetLoading key={`${item}`} />)}
-      {!loading && tweets.length > 0 ? (
+      {!loading && tweets.length <= 0 && <TweetNotFound />}
+      {!loading &&
+        tweets.length > 0 &&
         tweets.map(tweet => (
           <Tweet
             key={tweet._id.toString()}
@@ -106,10 +108,7 @@ const Search: React.FC = () => {
               assessment(tweet._id, false);
             }}
           />
-        ))
-      ) : (
-        <TweetNotFound />
-      )}
+        ))}
     </Container>
   );
 };

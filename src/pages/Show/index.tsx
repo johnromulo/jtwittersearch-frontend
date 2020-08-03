@@ -87,7 +87,8 @@ const Show: React.FC = () => {
   return (
     <Container>
       {loading && <TweetLoading />}
-      {loading && tweets.length > 0 ? (
+      {!loading && tweets.length <= 0 && <TweetNotFound />}
+      {!loading && tweets.length > 0 && (
         <TweetListContainer>
           <TweetList
             ref={tweetsListRef}
@@ -103,8 +104,6 @@ const Show: React.FC = () => {
             ))}
           </TweetList>
         </TweetListContainer>
-      ) : (
-        <TweetNotFound />
       )}
     </Container>
   );
