@@ -87,12 +87,8 @@ const Show: React.FC = () => {
   // goToSlide
   return (
     <Container>
-      {!loading && !tweets ? (
-        [1, 2, 3].map(item => <TweetLoading key={`${item}`} />)
-      ) : (
-        <TweetNotFound />
-      )}
-      {tweets && (
+      {!loading && [1, 2, 3].map(item => <TweetLoading key={`${item}`} />)}
+      {tweets ? (
         <TweetListContainer>
           <TweetList
             ref={tweetsListRef}
@@ -108,6 +104,8 @@ const Show: React.FC = () => {
             ))}
           </TweetList>
         </TweetListContainer>
+      ) : (
+        <TweetNotFound />
       )}
     </Container>
   );
