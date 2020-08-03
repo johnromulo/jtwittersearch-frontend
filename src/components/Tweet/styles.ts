@@ -63,6 +63,11 @@ export const CardContentText = styled.p`
   padding: 1rem;
 `;
 
+export const DateTime = styled.div`
+  font-size: 1rem;
+  padding: 1rem;
+`;
+
 export const ApprovContainer = styled.div`
   overflow-y: hidden;
   padding: 0 2rem 2rem 2rem;

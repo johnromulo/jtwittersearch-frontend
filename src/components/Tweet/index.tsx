@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { TweetInterface } from '@interfaces/Tweet';
 
@@ -12,6 +12,7 @@ import {
   CardContentHeaderUserName,
   CardContentHeaderUserNickName,
   CardContentText,
+  DateTime,
   ApprovContainer,
   ApprovContent,
   Button,
@@ -30,6 +31,11 @@ const Tweet: React.FC<Props> = ({
   onClickAccept,
   onClickReject,
 }: Props) => {
+  const datetime = useMemo(() => {
+    const dt = new Date(tweet.times);
+    return dt.toLocaleString();
+  }, []);
+
   return (
     <CardContainer key={tweet._id.toString()}>
       <Card
@@ -49,6 +55,7 @@ const Tweet: React.FC<Props> = ({
             </CardContentHeaderUserNickName>
           </CardContentHeader>
           <CardContentText>{tweet.text}</CardContentText>
+          <DateTime>{datetime}</DateTime>
         </CardContent>
       </Card>
       {onClickAccept && onClickReject && (
