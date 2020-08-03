@@ -84,10 +84,9 @@ const Show: React.FC = () => {
     }
   }
 
-  // goToSlide
   return (
     <Container>
-      {!loading && [1, 2, 3].map(item => <TweetLoading key={`${item}`} />)}
+      {loading && <TweetLoading />}
       {tweets ? (
         <TweetListContainer>
           <TweetList

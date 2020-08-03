@@ -34,7 +34,7 @@ const Tweet: React.FC<Props> = ({
   const datetime = useMemo(() => {
     const dt = new Date(tweet.times);
     return dt.toLocaleString();
-  }, []);
+  }, [tweet.times]);
 
   return (
     <CardContainer key={tweet._id.toString()}>
