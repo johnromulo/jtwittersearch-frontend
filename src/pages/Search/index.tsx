@@ -48,8 +48,10 @@ const Search: React.FC = () => {
     if (hashtag) {
       getTweets();
 
-      socket.emit('search', {
-        hashtag,
+      socket.on('connect', () => {
+        socket.emit('search', {
+          hashtag,
+        });
       });
 
       connetionTweetRealTime = socket.on(
