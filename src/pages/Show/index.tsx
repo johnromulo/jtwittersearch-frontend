@@ -6,6 +6,8 @@ import api from '@services/api';
 import socket from '@services/socket';
 
 import { TweetInterface } from '@interfaces/Tweet';
+import TweetLoading from '@components/TweetLoading';
+import TweetNotFound from '@components/TweetNotFound';
 
 import Tweet from '@components/Tweet';
 
@@ -23,16 +25,20 @@ const Show: React.FC = () => {
 
   const [tweets, setTweets] = useState<TweetInterface[]>([]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     let connetionTweetRealTime: any = null;
 
     async function getTweets(): Promise<void> {
       try {
+        setLoading(true);
         const { data } = await api.get(
           `tweet?hashtag=${hashtag}&initialDate=${timeSearch}&approv=A`
         );
 
         setTweets(data);
+        setLoading(false);
 
         const lastItemNotViewed = data.findIndex(
           (tw: TweetInterface) => tw.viewed === false
@@ -50,6 +56,7 @@ const Show: React.FC = () => {
           }
         }, 500);
       } catch (error) {
+        setLoading(false);
         // toast.error(`Falha ao carregar hitórico de tweets`);
       }
     }
@@ -80,6 +87,11 @@ const Show: React.FC = () => {
   // goToSlide
   return (
     <Container>
+      {!loading && !tweets ? (
+        [1, 2, 3].map(item => <TweetLoading key={`${item}`} />)
+      ) : (
+        <TweetNotFound />
+      )}
       {tweets && (
         <TweetListContainer>
           <TweetList

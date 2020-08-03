@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { withRouter, useHistory } from 'react-router-dom';
 
 import { useTwitter } from '@hooks/useTwitter';
 import socket from '@services/socket';
@@ -9,25 +8,40 @@ import api from '@services/api';
 import { TweetInterface } from '@interfaces/Tweet';
 
 import Tweet from '@components/Tweet';
+import TweetLoading from '@components/TweetLoading';
+import TweetNotFound from '@components/TweetNotFound';
 
-import { Container } from './styles';
+import {
+  Container,
+  Header,
+  TitleContainer,
+  Title,
+  ButtonContainer,
+  Button,
+} from './styles';
 
 const Search: React.FC = () => {
   const { hashtag, timeSearch } = useTwitter();
 
+  const history = useHistory();
+
   const [tweets, setTweets] = useState<TweetInterface[]>([]);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let connetionTweetRealTime: any = null;
     async function getTweets(): Promise<void> {
       try {
+        setLoading(true);
         const { data } = await api.get(
           `tweet?hashtag=${hashtag}&initialDate=${timeSearch}&approv=P`
         );
 
         setTweets(data);
+        setLoading(false);
       } catch (error) {
-        toast.error(`Falha ao carregar hitórico de tweets`);
+        setLoading(false);
       }
     }
 
@@ -69,6 +83,21 @@ const Search: React.FC = () => {
 
   return (
     <Container>
+      <Header>
+        <TitleContainer>
+          <Title>#{hashtag}</Title>
+        </TitleContainer>
+        <ButtonContainer>
+          <Button onClick={() => history.push('/show')}>
+            Vizualizar Tweets
+          </Button>
+        </ButtonContainer>
+      </Header>
+      {!loading && !tweets ? (
+        [1, 2, 3].map(item => <TweetLoading key={`${item}`} />)
+      ) : (
+        <TweetNotFound />
+      )}
       {tweets &&
         tweets.map(tweet => (
           <Tweet
